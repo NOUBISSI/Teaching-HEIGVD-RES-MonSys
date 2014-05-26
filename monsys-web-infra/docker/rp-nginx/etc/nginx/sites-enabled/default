@@ -4,6 +4,15 @@ upstream web-nodes  {
       server 172.17.0.4:80;
 }
 
+
+upstream web-stat  {
+      ip_hash;
+      server 172.17.0.5:80;
+      server 172.17.0.4:80;
+      server 172.17.0.3:80;
+
+}
+
 upstream app-nodes  {
       server 172.17.0.5:80;
 }
@@ -20,8 +29,8 @@ server {
 	# We could have decided to serve web content if the client did not send a valid
 	# Host header. In that case, we would have added the following two lines and removed
 	# the "return 444" instruction.
-	# root /usr/share/nginx/html;
-	# index index.html index.htm;
+	root /usr/share/nginx/html;
+	index index.html index.htm;
 }
 
 # ------------------------------------------------------------------------------------ 
@@ -74,5 +83,27 @@ server {
 }
 
 
+server {
 
+        listen 80;
+
+        server_name live.clashofclasses.ch;
+	#leaderboard.clashofclasses.ch;
+
+	root /var/www/live.clashofclasses.ch/public_html;
+        index index.html index.htm;
+
+}
+
+
+server {
+
+        listen 80;
+
+        server_name leaderboard.clashofclasses.ch;
+        #leaderboard.clashofclasses.ch;
+
+	root /var/www/leaderboard.clashofclasses.ch/public_html;
+	index index.html index.htm;
+}
 
